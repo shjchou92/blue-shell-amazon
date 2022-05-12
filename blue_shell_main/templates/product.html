@@ -1,0 +1,262 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <h2>Amazon Price Record</h2>
+        <div class="row" id="product-header">
+            <div class="col-8" id="product-info">
+                <h4 class="d-block"><a href="{{ product.camel_link }}" target="_blank" data-bs-toggle="tooltip" title="See in Amazon">{{ product.title }}</a></h4>
+                <h2 class="d-block" style="color: #33D02F;">${{ '%0.2f'%(price_now) }}</h2>
+                <small class="text-muted">Last checked: {{ product.last_update }}</small>
+                <div class="d-flex flex-row">
+                    {% if is_lowest %}
+                        <div class="p-2 me-2 deal-tag" id="lowest"><i class="fa-solid fa-hand-point-up"></i>  Lowest Price</div>
+                    {% else %}
+                        {% if is_great %}
+                            <div class="p-2 me-2 deal-tag" id="great"><i class="fa-solid fa-thumbs-up"></i>  Great Deal</div>
+                        {% endif %}
+                    {% endif %}
+                    {% if is_lightning %}
+                        <div class="p-2 deal-tag" id="lightning"><i class="fa-solid fa-bolt-lightning"></i>  Lightning Deal</div>
+                    {% endif %}
+                </div>
+                <p class="text-muted" id="update-price">
+                    Not seeing the price you saw in Amazon? <a href="{{ url_for('update_product', asin=asin, url=short_url(asin)) }}" class="text-decoration-none" id="update-link">Click here to update the price.</a><span id="loading-product" style="visibility: hidden;">
+                        <img src="{{ url_for('static', filename='spin-loader.gif') }}" alt="Spinning Loader" id="spin-loader-product">
+                    </span>
+                </p>
+            </div>
+            <img id="product_image" src="{{ product.image }}" class="col-4" alt="First Image">
+        </div>
+        <hr>
+        <div class="row" id="product-notification-row">
+            <!-- Flash Message -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}" id="alert-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% if alert_form.email.errors %}
+                {% for error in alert_form.email.errors %}
+                <div class="alert alert-danger" id="alert-message">
+                    {{ error }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <div class="card-header border" id="product-card-header">
+                Create Low Price Notification
+            </div>
+            <div class="card-body border" id="product-card-body">
+                <div class="input-group">
+                    <form method="POST" action="" id="track-form">
+                        {{ alert_form.hidden_tag() }}
+                        {{ alert_form.email(class="form-control form-control-md", placeholder="Send email to", id="product-input-email") }}
+                        {% if alert_form.price.errors %}
+                            {{ alert_form.price(class="form-control form-control-md is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in alert_form.price.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ alert_form.price(class="form-control form-control-md", placeholder="When price is below this amount", id="product-input-price") }}
+                        {% endif %}
+                        {{ alert_form.submit(class="btn btn-primary", id="product-input-submit") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row" id="product-row">
+            {% if amazon_data %}
+                <div class="col">
+                    <h4>Amazon Seller</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">% Diff.</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Current</td>
+                                <td>${{ '%0.2f'%(price_now) }}</td>
+                                <td>-</td>
+                                <td>{{ today_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Highest</td>
+                                <td>${{ '%0.2f'%(amazon_data[3]) }}</td>
+                                <td>{{ saving(price_now, amazon_data[3]) }}%</td>
+                                <td>{{ product.amazon_high_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lowest</td>
+                                <td>${{ '%0.2f'%(amazon_data[0]) }}</td>
+                                <td>{{ saving(price_now, amazon_data[0]) }}%</td>
+                                <td>{{ product.amazon_low_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Average<sup>*</sup></td>
+                                <td>{{ product.amazon_avg }}</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <small class="text-muted">* From the last 50 or less price changes.</small>
+                </div>
+                <div class="col">
+                    <canvas id="amazonBar" width="500" height="300"></canvas>
+                    <script type="text/javascript">
+                        var ctx = document.getElementById('amazonBar').getContext('2d');
+                        var bargraph = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: {{ amazon_dates|tojson }},
+                                datasets: [
+                                    {
+                                        label: "Prices",
+                                        data: {{ amazon_data|tojson }},
+                                        backgroundColor: {{ a_bg_color|tojson }}
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: { display: false }
+                                    }],
+                                    yAxes: [{
+                                        gridLines: { display: true },
+                                        ticks: {
+                                            beginAtZero: true,
+                                            callback: function(value, index, ticks) {
+                                                return '$'+value;
+                                            }
+                                        }
+                                    }]
+                                },
+                                responsive: false,
+                                legend: { display: false },
+                                title: {
+                                    display: true,
+                                    text: "Amazon Price History"
+                                }
+                            }
+                        });
+                        </script>
+                </div>
+            {% else %}
+                <div class="col">
+                    <h3>Amazon Seller</h3>
+                    <small class="text-muted">Sorry, price record of Amazon as seller was not found.</small>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row" id="product-row">
+            {% if third_data %}
+                <div class="col">
+                    <h4>3rd Party Seller</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">% Diff.</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Current</td>
+                                <td>${{ '%0.2f'%(price_now) }}</td>
+                                <td>-</td>
+                                <td>{{ today_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Highest</td>
+                                <td>${{ '%0.2f'%(third_data[3]) }}</td>
+                                <td>{{ saving(price_now, third_data[3]) }}%</td>
+                                <td>{{ product.third_high_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lowest</td>
+                                <td>${{ '%0.2f'%(third_data[0]) }}</td>
+                                <td>{{ saving(price_now, third_data[0]) }}%</td>
+                                <td>{{ product.third_low_date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Average<sup>*</sup></td>
+                                <td>{{ product.third_avg }}</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <small class="text-muted">* From the last 50 or less price changes.</small>
+                </div>
+                <div class="col">
+                    <canvas id="thirdBar" width="500" height="300"></canvas>
+                    <script type="text/javascript">
+                        var ctx = document.getElementById('thirdBar').getContext('2d');
+                        var bargraph = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: {{ third_dates|tojson }},
+                                datasets: [
+                                    {
+                                        label: "Prices",
+                                        data: {{ third_data|tojson }},
+                                        backgroundColor: {{ t_bg_color|tojson }}
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: { display: false }
+                                    }],
+                                    yAxes: [{
+                                        gridLines: { display: true },
+                                        ticks: {
+                                            beginAtZero: true,
+                                            callback: function(value, index, ticks) {
+                                                return '$'+value;
+                                            }
+                                        }
+                                    }]
+                                },
+                                responsive: false,
+                                legend: { display: false },
+                                title: {
+                                    display: true,
+                                    text: "3rd Party Price History"
+                                }
+                            }
+                        });
+                        </script>
+                </div>
+            {% else %}
+                <div class="col">
+                    <h3>3rd Party Seller</h3>
+                    <small class="text-muted">Sorry, price record of 3rd parties as sellers were not found.</small>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        function update_loading() {
+            document.querySelector('#loading-product').style.visibility = "visible";
+        }
+
+        const input = document.getElementById('update-link')
+        input.addEventListener('click', update_loading, false);
+    </script>
+{% endblock content %}

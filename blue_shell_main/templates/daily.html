@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% set active_page = 'deal' %}
+{% block content %}
+    <div class="container">
+        <div id="intro" class="">
+            <h2 class="d-block">Lightning Deals</h1>
+            <p class="d-block fs-5">Lightning Deals are promotions in which limited number of discounts are offered on an item for a short period of time. Deals runs out fast!</p>
+        </div>
+        <hr class="m-0">
+        <p class="text-muted fs-6">Last updated {{ today_date }}</p>
+        {% for sb in sql_deal.items|batch(3) %}
+            <div class="row row-cols-3">
+            {% for deals in sb %}
+                {% set id = ((deals.id) - 1) %}
+                <div class="col">
+                    <div class="card" id="deal-cards">
+                        <div class="card-section">
+                            {% if (list_deals[id]['images']|length) == 0 %}
+                                <img src="{{ url_for('static', filename='no-image.png') }}" class="no-image" alt="No Image">
+                            {% else %}
+                                <div id="{{ deals.asin }}" class="carousel carousel-dark slide" data-bs-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-indicators">
+                                        {% for j in range(list_deals[id]['images']|length) %}
+                                            <button type="button" data-bs-target="#{{ deals.asin }}" data-bs-slide-to="{{ j }}" class="{% if j == 0 %} active {% endif %}" aria-current="true" aria-label="Slide {{ j }}"></button>
+                                        {% endfor %}
+                                        </div>
+                                        {% for j in range(list_deals[id]['images']|length) %}
+                                            <div class="carousel-item {% if j == 0 %} active {% endif %}">
+                                                <img src="{{ list_deals[id]['images'][j] }}" class="d-block" alt="Image {{ j }}">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#{{ deals.asin }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#{{ deals.asin }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title text-primary">
+                                    <a href="{{ deals.link }}" target="_blank" rel="noreferrer noopener" class="text-decoration-none" data-toggle="tooltip" title="{{ deals.title }}">{{ short_title(deals.title) }}</a>
+                            </p>
+                            {% if short_title(deals.title)|length < 40 %}
+                                <h2 id="card-curr-price-short" class="card-text" style="color: #33D02F;">${{ '%0.2f'%(deals.curr_price) }}</h2>
+                            {% else %}
+                                <h2 id="card-curr-price" class="card-text" style="color: #33D02F;">${{ '%0.2f'%(deals.curr_price) }}</h2>
+                            {% endif %}
+                            <p id="card-orig-price" class="card-text m-0 text-secondary">Original Price: ${{ deals.orig_price }}<span id="saving" class="card-text text-danger"> (Save {{ saving(deals.curr_price, deals.orig_price) }}%)</span></p>
+                            <p id="star-reviews" class="card-text text-secondary">{{ deals.stars }}⭐️ - <span> {{ deals.reviews }} Reviews</span></p>
+                            <a href="{{ url_for('product', asin=deals.asin, url=short_url(deals.asin), price=deals.curr_price) }}" rel="noreferrer" class="btn btn-outline-primary {{ deals.asin }}" role="button">See Price Record</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% endfor %}
+        <ul class="pagination float-end">
+            {% if sql_deal.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('daily', page=sql_deal.prev_num) }}">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            {% endif %}
+
+            {% for page_num in sql_deal.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if sql_deal.page == page_num %}
+                        <li class="page-item">
+                            <a class="page-link" id="active_link" href="{{ url_for('daily', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('daily', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <a href="#" class="page-link">...</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if sql_deal.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('daily', page=sql_deal.next_num) }}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <script>
+        document.addEventListener('click', function(e) {
+            e = e || window.event;
+            if (e.target.innerText === "See Price Record") {
+                let name = e.target.className.split(" ")[2]
+                document.getElementsByClassName(name)[0].innerText = "Loading..."
+            };
+        })
+    </script>
+{% endblock content %}

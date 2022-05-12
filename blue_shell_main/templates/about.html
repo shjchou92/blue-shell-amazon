@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% set active_page = 'about' %}
+{% block content %}
+    <div class="container">
+        <h1 class="about-header" id="about">About Blue Shell Amazon</h1>
+        <h1 class="about-header" id="question">Questions Might be Asked</h1>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="about-me-tab" data-bs-toggle="tab" data-bs-target="#about-me" type="button" role="tab" aria-controls="about-me" aria-selected="true">About</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="faq-tab" data-bs-toggle="tab" data-bs-target="#faq" type="button" role="tab" aria-controls="faq" aria-selected="false">QMA</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="tab-content">
+            <div class="tab-pane fade show active" id="about-me" role="tabpanel" aria-labelledby="about-me-tab">
+                <p id="about-bsa"><strong>Blue Shell Amazon is a mock site to </strong><a href="https://camelcamelcamel.com/" target="_blank"><strong>Camelcamelcamel.com</strong></a>.</p>
+                <p>
+                    The high, low, current, and average prices in the product page are taken directly from Camelcamelcamel. Blue Shell Amazon uses these data to display the price comparison in a similar fashion but with a bar graph for simplicity. These services are free in Camelcamelcamel; therefore, to support it, the links to the products will be directed to Camelcamelcamel before landing at Amazon. Camelcamelcamel earn commission with every purchase made from their links and keeps their services ongoing.<br><br>
+                    Thank you for visiting Blue Shell Amazon.
+                </p>
+                <hr>
+                <div class="card" id="about-coder">
+                    <div class="row">
+                        <div class="col-3" id="about-pic-col">
+                            <img id="about-pic" class="rounded-circle" src="{{ url_for('static', filename='shc_profile_lg.jpg') }}">
+                        </div>
+                        <div class="col">
+                            <h4>Hi, I'm Sang Hun</h4>
+                            <hr>
+                            <p>
+                                Hello world! Blue Shell Amazon is my first flask web application. This began when I came across a scripting exercise that scraped price numbers off of Amazon using BeautifulSoup to make a simple price tracker. I believed it was a good practice to create a price tracking web application with Flask and got started. In learning about price tracking Amazon from others, I got to find out about Camelcamelcamel, and this led to creating Blue Shell Amazon. Personally, this project was huge and it was a good experience all around, and as I journey through, my goal is to provide and create an original content.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                <div class="accordion" id="accordionQma">
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                What is Camelcamelcamel and why does it appear before reaching the product page in Amazon?
+                            </button>
+                        </h5>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                This is explained in About section.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Why does it take few seconds to load the price record?
+                            </button>
+                        </h5>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                I used Seleninum webdriver to search and fetch the price of the product in Camelcamelcamel. The price fetching process takes few seconds before it gets rendered to the product page.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Can this be done quicker?
+                            </button>
+                        </h5>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                Unfortunately, there wasn't any other free resources of price records other than camelcamelcamel.com.<br>
+                                I tried to scrape data from Camelcamelcamel using BeautifulSoup; however, it returns 403 forbidden error.
+                                I am relying on BeautifulSoup to scrape the current price off of Amazon when price update is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Why is the today's price lower than the lowest price?
+                            </button>
+                        </h5>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                The lowest price get updated after displaying the old values. Upon refresh, the lowest or highest prices will be updated accordingly.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                What is the difference between Amazon sellers and third party sellers?
+                            </button>
+                        </h5>
+                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionQma">
+                            <div class="accordion-body" id="qma-sold">
+                                <img class="img-thumbnail float-start" id="sold-amazon" src="{{ url_for('static', filename='sold_by_amazon.png') }}">
+                                <p>Product sold by Amazon.<br></p>
+                                <img class="img-thumbnail float-start" id="sold-third" src="{{ url_for('static', filename='sold_by_third.png') }}">
+                                <p>Product sold by a 3rd party.<br></p>
+                                <img class="img-thumbnail float-start" id="sold-other" src="{{ url_for('static', filename='other_sellers.png') }}">
+                                <br>
+                                <p>
+                                When price record displays both Amazon and the 3rd party as sellers, and the seller is from Amazon, 3rd party prices are found in the other sellers shown in the bottom right corner.<br>
+                                </p>
+                                <p>Used prices are not displayed in Blue Shell Amazon.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingSix">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                Why is there an option to update the price?
+                            </button>
+                        </h5>
+                        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                The current prices are fetched from camelcamelcamel.com, but the prices sometimes are not updated especially if there are quick deals happening at the moment. So in certain cases another scraping is required to show the correct price.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingSeven">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                How do I unsubscribe to the tracker?
+                            </button>
+                        </h5>
+                        <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                Emails in Blue Shell Amazon are only used to deliver price alerts, your personal information will not be sold or shared outside of this website.<br>
+                                If you wish to get this removed, please contact <a href="mailto: blueshell.amazon@gmail.com">blueshell.amazon@gmail.com</a> to request deletion.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h5 class="accordion-header" id="headingEight">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                It is not mobile user friendly.
+                            </button>
+                        </h5>
+                        <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionQma">
+                            <div class="accordion-body">
+                                I do not plan on fixing viewports on mobile devices because shopping on Amazon would most likely be done in computers.<br>
+                                Please send request on fixing the viewports (if required) to <a href="mailto: blueshell.amazon@gmail.com">blueshell.amazon@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.querySelector('#about-me-tab').addEventListener('click', function(e) {
+            if (e.target.attributes['aria-selected'].textContent === "true") {
+                document.querySelector("#about").style.display = 'block';
+                document.querySelector('#question').style.display = 'none';
+            }
+        })
+        document.querySelector('#faq-tab').addEventListener('click', function(e) {
+            if (e.target.attributes['aria-selected'].textContent === "true") {
+                document.querySelector("#about").style.display = 'none';
+                document.querySelector('#question').style.display = 'block';
+            }
+        })
+    </script>
+{% endblock content %}

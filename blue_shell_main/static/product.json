@@ -1,0 +1,48 @@
+{
+"results":[
+    {
+        "asin":"B07RGZ5NKS",
+        "title":"TOZO T6 True Wireless Earbuds Bluetooth Headphones Touch Control with Wireless Charging Case IPX8 Waterproof Stereo Earphones in-Ear Built-in Mic Headset Premium Deep Bass for Sport Black",
+        "image":"https://m.media-amazon.com/images/I/61rs+byhEOL._AC_UY218_.jpg",
+        "full_link":"https://www.amazon.com/dp/B07RGZ5NKS/?psc=1",
+        "prices":{
+            "current_price": 29.99,
+            "previous_price": 59.99,
+            "currency": "$"
+        },
+        "prime":false,
+        "sponsored":false,
+        "amazon_choice":false,
+        "out_of_stock":false
+    },
+    {
+        "asin":"B07J2Z5DBM",
+        "title":"TOZO T10 Bluetooth 5.0 Wireless Earbuds with Wireless Charging Case IPX8 Waterproof Stereo Headphones in Ear Built in Mic Headset Premium Sound with Deep Bass for Sport Black",
+        "image":"https://m.media-amazon.com/images/I/711iRifG4PL._AC_UY218_.jpg",
+        "full_link":"https://www.amazon.com/dp/B07J2Z5DBM/?psc=1",
+        "prices":{
+            "current_price": 26.98,
+            "previous_price": 29.98,
+            "currency": "$"
+        },
+        "prime":false,
+        "sponsored":false,
+        "amazon_choice":false,
+        "out_of_stock":false
+    },
+    {
+        "asin":"B079VP6DH5",
+        "title":"Bounty Quick-Size Paper Towels, White, 16 Family Rolls = 40 Regular Rolls",
+        "image":"https://m.media-amazon.com/images/I/71e4FX1KzIL._AC_UY218_.jpg",
+        "full_link":"https://www.amazon.com/dp/B079VP6DH5/?psc=1",
+        "prices":{
+            "current_price": 40.78,
+            "previous_price": -1,
+            "currency": "$"
+        },
+        "prime":false,
+        "sponsored":false,
+        "amazon_choice":false,
+        "out_of_stock":false
+    }
+]}

@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <h1>Search Result</h1>
+        <p class="text-muted">Product URL was not read, are any of the item below what you are looking for?</p>
+        <hr>
+        {% for item in data %}
+            <div class="card my-4">
+                <div class="row" id="search-row">
+                    <div class="col-3" id="img-col">
+                        <img src="{{ item['image'] }}" class="img-fluid" alt="Product-Image" id="search-image">
+                    </div>
+                    <div class="col">
+                        <div class="card-body" id="search-body">
+                            <h5 class="card-title"><a class="text-primary" target="_blank" href="{{ item['full_link'] }}" data-bs-toggle="tooltip" title="See in Amazon">{{ item['title'] }}</a></h5>
+                            <table cellspacing="0" cellpadding="0" id="search-table">
+                                <tbody>
+                                    <tr>
+                                        <th class="search-th" scope="row">Current Price</th>
+                                        <td id="search-price">${{ '%0.2f'%(item['prices']['current_price']) }}</td>
+                                    </tr>
+                                    {% if item['prices']['previous_price'] != -1 %}
+                                        <tr>
+                                            <th class="search-th" scope="row">List Price</th>
+                                            <td>${{ '%0.2f'%(item['prices']['previous_price']) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="search-th" scope="row">Save</th>
+                                            <td id="search-save">${{ '%0.2f'%(item['prices']['previous_price'] - item['prices']['current_price']) }} ({{ ('%0.2f'%(saving(item['prices']['current_price'], item['prices']['previous_price']))) }}%)</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <th class="search-th" scope="row">List Price</th>
+                                            <td>${{ '%0.2f'%(item['prices']['current_price']) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="search-th" scope="row">Save</th>
+                                            <td id="search-save">-</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                            <a id="search-button" class="btn btn-outline-warning {{ item['asin'] }}" href="{{ url_for('product', asin=item['asin'], url=item['full_link'][:-5], price=item['prices']['current_price']) }}" role="button">Check Price Record</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('click', function(e) {
+            e = e || window.event;
+            if (e.target.innerText === "Check Price Record") {
+                let name = e.target.className.split(" ")[2]
+                document.getElementsByClassName(name)[0].innerText = "Loading..."
+            };
+        })
+    </script>
+{% endblock content %}
