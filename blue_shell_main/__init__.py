@@ -12,7 +12,7 @@ if ENV == 'dev':
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('AMAZON_PT')
 else:
     app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jlpkqknyooazfh:28899e74eb97bae622968a525227ea5eff1d17e7609bcb6b0cb6dfbbe295b04c@ec2-44-194-4-127.compute-1.amazonaws.com:5432/d2bm97rqttpal2'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://jlpkqknyooazfh:28899e74eb97bae622968a525227ea5eff1d17e7609bcb6b0cb6dfbbe295b04c@ec2-44-194-4-127.compute-1.amazonaws.com:5432/d2bm97rqttpal2'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
