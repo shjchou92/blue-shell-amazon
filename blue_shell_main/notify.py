@@ -48,6 +48,6 @@ def send_mail():
                 Track.query.filter_by(id=item_id).delete()
                 db.session.commit()
             
-            time.sleep(5)
+            time.sleep(1)
 
 send_mail()
