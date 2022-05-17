@@ -8,30 +8,18 @@ from blue_shell_main.models import Daily
 
 # Add the daily deals to database
 def call():
-    site_root = os.path.realpath(os.path.dirname(__file__))
-    json_url = os.path.join(site_root, 'static', 'daily.json')
-
     url = "https://amazon-products1.p.rapidapi.com/deals"
-
     querystring = {"min_number":"5","country":"US","type":"LIGHTNING_DEAL","max_number":"100"}
-
     headers = {
         'x-rapidapi-host': "amazon-products1.p.rapidapi.com",
         'x-rapidapi-key': "add2f36842msh0b1256e730655b6p1d7d6djsn6e6596a24978"
-        }
-
+    }
     response = requests.request("GET", url, headers=headers, params=querystring)
     response.raise_for_status()
 
     data = response.json()
 
-    with open(json_url, 'w') as f:
-        json.dump(data, f, indent=4)
-
     time_now = time.time()
-
-    with open(json_url, 'r') as f:
-        data = json.load(f)
 
     data = data['offers']
 
@@ -50,3 +38,5 @@ def call():
     first.timestamp = time_now
 
     db.session.commit()
+
+    return data

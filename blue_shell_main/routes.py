@@ -54,17 +54,11 @@ def daily():
             # Delete the current Daily items
             db.session.query(Daily).delete()
             db.session.commit()
-            call()
+            data = call()
     else:
-        call()
+        data = call()
 
     form = UrlForm()
-    site_root = os.path.realpath(os.path.dirname(__file__))
-    json_url = os.path.join(site_root, 'static', 'daily.json')
-    with open(json_url, 'r') as f:
-        data = json.load(f)
-
-    data = data['offers']
 
     # This is to paginate the items
     page = request.args.get('page', 1, type=int)
