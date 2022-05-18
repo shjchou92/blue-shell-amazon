@@ -12,22 +12,23 @@
             <div class="row row-cols-3">
             {% for deals in sb %}
                 {% set id = ((deals.id) - 1) %}
+                {% set img_data = extract_images(deals.images) %}
                 <div class="col">
                     <div class="card" id="deal-cards">
                         <div class="card-section">
-                            {% if (list_deals[id]['images']|length) == 0 %}
+                            {% if (img_data|length) == 0 %}
                                 <img src="{{ url_for('static', filename='no-image.png') }}" class="no-image" alt="No Image">
                             {% else %}
                                 <div id="{{ deals.asin }}" class="carousel carousel-dark slide" data-bs-interval="false">
                                     <div class="carousel-inner">
                                         <div class="carousel-indicators">
-                                        {% for j in range(list_deals[id]['images']|length) %}
-                                            <button type="button" data-bs-target="#{{ deals.asin }}" data-bs-slide-to="{{ j }}" class="{% if j == 0 %} active {% endif %}" aria-current="true" aria-label="Slide {{ j }}"></button>
+                                        {% for i in range(img_data|length) %}
+                                            <button type="button" data-bs-target="#{{ deals.asin }}" data-bs-slide-to="{{ i }}" class="{% if i == 0 %} active {% endif %}" aria-current="true" aria-label="Slide {{ i }}"></button>
                                         {% endfor %}
                                         </div>
-                                        {% for j in range(list_deals[id]['images']|length) %}
-                                            <div class="carousel-item {% if j == 0 %} active {% endif %}">
-                                                <img src="{{ list_deals[id]['images'][j] }}" class="d-block" alt="Image {{ j }}">
+                                        {% for i in range(img_data|length) %}
+                                            <div class="carousel-item {% if i == 0 %} active {% endif %}">
+                                                <img src="https://images-na.ssl-images-amazon.com/images/I/{{img_data[i]}}.jpg" class="d-block" alt="Image {{ i }}">
                                             </div>
                                         {% endfor %}
                                     </div>

@@ -1,4 +1,4 @@
-import json, os, time
+import os, time
 from datetime import datetime
 from flask import redirect, render_template, flash, url_for, request
 from blue_shell_main import app, db
@@ -54,9 +54,9 @@ def daily():
             # Delete the current Daily items
             db.session.query(Daily).delete()
             db.session.commit()
-            data = call()
+            call()
     else:
-        data = call()
+        call()
 
     form = UrlForm()
 
@@ -64,7 +64,7 @@ def daily():
     page = request.args.get('page', 1, type=int)
     daily_deals = Daily.query.paginate(page=page, per_page=12)
 
-    return render_template('daily.html', title="Daily Deals", list_deals=data, sql_deal=daily_deals, form=form)
+    return render_template('daily.html', title="Daily Deals", sql_deal=daily_deals, form=form)
 
 @app.route('/product/<string:asin>', methods=['GET', 'POST'])
 def product(asin, url="", price="0"):
@@ -72,9 +72,6 @@ def product(asin, url="", price="0"):
     form = UrlForm()
 
     url = request.args['url']
-    print()
-    print(url)
-    print()
     lightning = lightning_deal_tag(url)
 
     if alert_form.validate_on_submit():

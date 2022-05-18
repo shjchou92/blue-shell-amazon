@@ -1,4 +1,4 @@
-import os, json, requests
+import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from blue_shell_main import app, db
@@ -26,6 +26,12 @@ def saving(curr, prev):
 def short_url(asin):
     short_url = f"https://www.amazon.com/dp/{asin}/"
     return short_url
+
+@app.template_global()
+def extract_images(img_code):
+    img_list = img_code.split(',')
+    img_list.pop()
+    return img_list
 
 # Inject current date in Jinja
 @app.context_processor
