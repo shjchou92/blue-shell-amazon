@@ -16,7 +16,7 @@ class Daily(db.Model):
     stars = db.Column(db.Float, nullable=False)
     reviews = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.Float, nullable=True)
-    images = db.Column(db.Text, unique=True, nullable=False)
+    images = db.Column(db.Text, nullable=True)
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
