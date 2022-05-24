@@ -15,8 +15,8 @@ class Daily(db.Model):
     orig_price = db.Column(db.Float, nullable=False)
     stars = db.Column(db.Float, nullable=False)
     reviews = db.Column(db.Integer, nullable=False)
-    timestamp = db.Column(db.Float, nullable=True)
     images = db.Column(db.Text, nullable=True)
+    timestamp = db.Column(db.Float, nullable=True)
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
