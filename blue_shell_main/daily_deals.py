@@ -22,7 +22,6 @@ def call():
     time_now = time.time()
 
     data = data['offers']
-    print(data[0])
 
     for deal in data:
         img_str = ""
@@ -40,9 +39,10 @@ def call():
                             orig_price=deal['prices']['previous_price'],
                             stars=deal['reviews']['stars'],
                             reviews=deal['reviews']['total_reviews'],
-                            images=img_str
-                            )
+                            images=img_str)
         db.session.add(add_deal)
+
+    db.session.commit()
 
     first = Daily.query.get(1)
     first.timestamp = time_now
