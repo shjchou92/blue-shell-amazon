@@ -25,11 +25,12 @@ def call():
 
     for deal in data:
         img_str = ""
-        for img in deal['images']:
-            start = img.find('/I/')
-            end = img.find('.jpg')
-            img_code = img[start+3:end]
-            img_str += img_code + ","
+        if deal['images']:
+            for img in deal['images']:
+                start = img.find('/I/')
+                end = img.find('.jpg')
+                img_code = img[start+3:end]
+                img_str += img_code + ","
 
         add_deal = Daily(title=deal['title'],
                             asin=deal['asin'],
@@ -41,7 +42,6 @@ def call():
                             images=img_str
                             )
         db.session.add(add_deal)
-
 
     first = Daily.query.get(1)
     first.timestamp = time_now
