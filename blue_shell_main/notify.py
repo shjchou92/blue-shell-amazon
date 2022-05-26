@@ -1,4 +1,4 @@
-import time, smtplib
+import time, smtplib, os
 from email.message import EmailMessage
 from blue_shell_main import db
 from blue_shell_main.models import Track, Product

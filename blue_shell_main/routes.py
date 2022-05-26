@@ -44,7 +44,7 @@ def daily():
     if Daily.query.all():
         current_time = time.localtime(time.time())
         timestamp = Daily.query.get(1).timestamp
-        day_after_time = time.localtime(timestamp + DAY_TO_SEC)
+        day_after_time = datetime.fromtimestamp(timestamp + DAY_TO_SEC)
 
         current_datetime = datetime.now()
         start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=7)
