@@ -23,6 +23,8 @@ def call():
 
     data = data['offers']
 
+    print(data[0])
+
     for deal in data:
         img_str = ""
         if deal['images']:
