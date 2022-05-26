@@ -21,30 +21,31 @@ def call():
 
     time_now = time.time()
 
-    data = data['offers']
+    if not data['error']:
+        data = data['offers']
 
-    print(data[0])
+        for deal in data:
+            img_str = ""
+            if deal['images']:
+                for img in deal['images']:
+                    start = img.find('/I/')
+                    end = img.find('.jpg')
+                    img_code = img[start+3:end]
+                    img_str += img_code + ","
 
-    for deal in data:
-        img_str = ""
-        if deal['images']:
-            for img in deal['images']:
-                start = img.find('/I/')
-                end = img.find('.jpg')
-                img_code = img[start+3:end]
-                img_str += img_code + ","
+            add_deal = Daily(title=deal['title'],
+                                asin=deal['asin'],
+                                link=deal['full_link'],
+                                curr_price=deal['prices']['current_price'],
+                                orig_price=deal['prices']['previous_price'],
+                                stars=deal['reviews']['stars'],
+                                reviews=deal['reviews']['total_reviews'],
+                                images=img_str)
+            db.session.add(add_deal)
 
-        add_deal = Daily(title=deal['title'],
-                            asin=deal['asin'],
-                            link=deal['full_link'],
-                            curr_price=deal['prices']['current_price'],
-                            orig_price=deal['prices']['previous_price'],
-                            stars=deal['reviews']['stars'],
-                            reviews=deal['reviews']['total_reviews'],
-                            images=img_str)
-        db.session.add(add_deal)
+        first = Daily.query.get(1)
+        first.timestamp = time_now
 
-    first = Daily.query.get(1)
-    first.timestamp = time_now
-
-    db.session.commit()
+        db.session.commit()
+    else:
+        print(data)
