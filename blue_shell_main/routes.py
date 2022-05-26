@@ -42,15 +42,13 @@ def about():
 @app.route('/daily', methods=['GET', 'POST'])
 def daily():
     if Daily.query.all():
-        current_time = time.localtime(time.time())
         timestamp = Daily.query.get(1).timestamp
         day_after_time = datetime.fromtimestamp(timestamp + DAY_TO_SEC)
-
         current_datetime = datetime.now()
-        start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=7)
-        end_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=16)
+        start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=14)
+        end_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=23)
 
-        if (current_datetime > start_time and current_datetime < end_time) and current_time > day_after_time:
+        if (current_datetime > start_time and current_datetime < end_time) and current_datetime > day_after_time:
             # Delete the current Daily items
             db.session.query(Daily).delete()
             db.session.commit()
