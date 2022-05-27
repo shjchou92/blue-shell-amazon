@@ -43,8 +43,8 @@ def call():
                                 reviews=deal['reviews']['total_reviews'],
                                 images=img_str)
             db.session.add(add_deal)
-            db.session.commit()
 
+        db.session.commit()
         first = Daily.query.get(1)
         first.timestamp = time_now
 
