@@ -23,6 +23,7 @@ def call():
 
     if not data['error']:
         data = data['offers']
+        print(data[0])
 
         for deal in data:
             img_str = ""
