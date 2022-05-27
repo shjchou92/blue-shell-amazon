@@ -23,7 +23,6 @@ def call():
 
     if not data['error']:
         data = data['offers']
-        print(data[0])
 
         for deal in data:
             img_str = ""
@@ -43,8 +42,10 @@ def call():
                                 reviews=deal['reviews']['total_reviews'],
                                 images=img_str)
             db.session.add(add_deal)
+            print(add_deal)
+            print('This was added')
+            db.session.commit()
 
-        db.session.commit()
         first = Daily.query.get(1)
         first.timestamp = time_now
 
