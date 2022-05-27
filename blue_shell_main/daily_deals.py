@@ -8,6 +8,7 @@ from blue_shell_main.models import Daily
 
 # Add the daily deals to database
 def call():
+    db.create_all()
     url = "https://amazon-products1.p.rapidapi.com/deals"
     querystring = {"min_number":"5","country":"US","type":"LIGHTNING_DEAL","max_number":"100"}
     headers = {
@@ -42,12 +43,10 @@ def call():
                                 reviews=deal['reviews']['total_reviews'],
                                 images=img_str)
             db.session.add(add_deal)
-            print(add_deal)
-            print('This was added')
-            db.session.commit()
 
         first = Daily.query.get(1)
-        first.timestamp = time_now
+        if first:
+            first.timestamp = time_now
 
         db.session.commit()
     else:
