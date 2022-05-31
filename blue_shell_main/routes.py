@@ -54,7 +54,12 @@ def daily():
                 db.session.query(Daily).delete()
                 db.session.commit()
             else:
-                pass
+                conn = psycopg2.connect(os.environ.get('DATABASE_URL'))
+                cur = conn.cursor()
+                cur.postgre.execute('DROP TABLE Daily;')
+                conn.commit()
+                cur.close()
+                conn.close()
             call()
     else:
         call()
