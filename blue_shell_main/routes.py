@@ -1,7 +1,7 @@
-import os
+import os, psycopg2
 from datetime import datetime
 from flask import redirect, render_template, flash, url_for, request
-from blue_shell_main import app, db
+from blue_shell_main import app, db, ENV
 from blue_shell_main.forms import UrlForm, AlertForm
 from blue_shell_main.models import Track, Daily, Product
 from blue_shell_main.tracker import *
@@ -45,13 +45,16 @@ def daily():
         timestamp = Daily.query.get(1).timestamp
         day_after_time = datetime.fromtimestamp(timestamp + DAY_TO_SEC)
         current_datetime = datetime.now()
-        start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=14)
-        end_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=23)
+        start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=14) # 14 utc
+        end_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=23) # 23 utc
 
         if (current_datetime > start_time and current_datetime < end_time) and current_datetime > day_after_time:
             # Delete the current Daily items
-            db.session.query(Daily).delete()
-            db.session.commit()
+            if ENV == 'dev':
+                db.session.query(Daily).delete()
+                db.session.commit()
+            else:
+                pass
             call()
     else:
         call()
