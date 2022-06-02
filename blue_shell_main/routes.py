@@ -72,7 +72,7 @@ def daily():
                 cur = conn.cursor()
                 conn.set_isolation_level(0)
                 cur.execute('''
-                TRUNCATE ONLY daily
+                TRUNCATE ONLY Daily
                 RESTART IDENTITY;
                 ''') # DELETE FROM table_name
                 conn.commit()
