@@ -70,6 +70,7 @@ def daily():
                     port=port
                 )
                 cur = conn.cursor()
+                conn.set_isolation_level(0)
                 cur.execute('''
                 TRUNCATE ONLY daily
                 RESTART IDENTITY;
