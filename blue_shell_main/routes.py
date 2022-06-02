@@ -61,6 +61,7 @@ def daily():
                 pw = url.password
                 host = url.hostname
                 port = url.port
+                print('Parsing complete')
 
                 conn = psycopg2.connect(
                     dbname=dbname,
@@ -69,11 +70,17 @@ def daily():
                     host=host,
                     port=port
                 )
+                print('connection complete')
                 cur = conn.cursor()
+                print('created cursor')
                 cur.execute('TRUNCATE Daily;')
+                print('executing delete')
                 conn.commit()
+                print('commiting')
                 cur.close()
+                print('closing cursor')
                 conn.close()
+                print('closing connection')
             call()
     else:
         call()
