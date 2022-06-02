@@ -1,4 +1,5 @@
 import os, psycopg2
+import urllib.parse as urlparse
 from datetime import datetime
 from flask import redirect, render_template, flash, url_for, request
 from blue_shell_main import app, db, ENV
@@ -54,7 +55,20 @@ def daily():
                 db.session.query(Daily).delete()
                 db.session.commit()
             else:
-                conn = psycopg2.connect(os.environ.get('DATABASE_URL_FIXED'))
+                url = urlparse.urlparse(os.environ['DATABASE_URL_FIXED'])
+                dbname = url.path[1:]
+                user = url.username
+                pw = url.password
+                host = url.hostname
+                port = url.port
+
+                conn = psycopg2.connect(
+                    dbname=dbname,
+                    user=user,
+                    password=pw,
+                    host=host,
+                    port=port
+                )
                 cur = conn.cursor()
                 cur.execute('TRUNCATE Daily;')
                 conn.commit()
