@@ -56,7 +56,7 @@ def daily():
             else:
                 conn = psycopg2.connect(os.environ.get('DATABASE_URL_FIXED'))
                 cur = conn.cursor()
-                cur.execute('DROP TABLE Daily;')
+                cur.execute('TRUNCATE Daily;')
                 conn.commit()
                 cur.close()
                 conn.close()
