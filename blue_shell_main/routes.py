@@ -51,7 +51,7 @@ def daily():
 
         if (current_datetime > start_time and current_datetime < end_time) and current_datetime > day_after_time:
             # Delete the current Daily items
-            if ENV == 'dev':
+            if ENV == 'prod':
                 db.session.query(Daily).delete()
                 db.session.commit()
             else:
