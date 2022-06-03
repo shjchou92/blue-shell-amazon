@@ -46,8 +46,8 @@ def daily():
         timestamp = Daily.query.get(1).timestamp
         day_after_time = datetime.fromtimestamp(timestamp + DAY_TO_SEC)
         current_datetime = datetime.now()
-        start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=14) # 14 utc
-        end_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=23) # 23 utc
+        start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=14) # 14 utc 7 pst
+        end_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=23) # 23 utc 16 pst
 
         if (current_datetime > start_time and current_datetime < end_time) and current_datetime > day_after_time:
             # Delete the current Daily items
