@@ -40,13 +40,9 @@ def call():
                                 orig_price=deal['prices']['previous_price'],
                                 stars=deal['reviews']['stars'],
                                 reviews=deal['reviews']['total_reviews'],
-                                images=img_str)
+                                images=img_str,
+                                timestamp=time_now)
             db.session.add(add_deal)
-
-        first = Daily.query.get(1)
-        if first:
-            first.timestamp = time_now
-
         db.session.commit()
     else:
         print(data)

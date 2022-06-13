@@ -43,7 +43,7 @@ def about():
 @app.route('/daily', methods=['GET', 'POST'])
 def daily():
     if Daily.query.all():
-        timestamp = Daily.query.get(1).timestamp
+        timestamp = Daily.query.first().timestamp
         day_after_time = datetime.fromtimestamp(timestamp + DAY_TO_SEC)
         current_datetime = datetime.now()
         start_time = datetime(current_datetime.year, current_datetime.month, current_datetime.day, hour=14) # 14 utc 7 pst
@@ -51,33 +51,8 @@ def daily():
 
         if (current_datetime > start_time and current_datetime < end_time) and current_datetime > day_after_time:
             # Delete the current Daily items
-            if ENV == 'prod':
-                db.session.query(Daily).delete()
-                db.session.commit()
-            else:
-                url = urlparse.urlparse(os.environ['DATABASE_URL_FIXED'])
-                dbname = url.path[1:]
-                user = url.username
-                pw = url.password
-                host = url.hostname
-                port = url.port
-
-                conn = psycopg2.connect(
-                    dbname=dbname,
-                    user=user,
-                    password=pw,
-                    host=host,
-                    port=port
-                )
-                cur = conn.cursor()
-                conn.set_isolation_level(0)
-                cur.execute('''
-                TRUNCATE ONLY Daily
-                RESTART IDENTITY;
-                ''') # DELETE FROM table_name
-                conn.commit()
-                cur.close()
-                conn.close()
+            db.session.query(Daily).delete()
+            db.session.commit()
             call()
     else:
         call()
