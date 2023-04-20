@@ -53,15 +53,15 @@ def fetch_product(url):
 
     camel_link = driver.find_element(By.CSS_SELECTOR, 'a.button.expanded.buy.has-tip').get_attribute('href')
 
-    title = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div/div[2]/div[2]/div[1]/h2[2]/a").text
+    title = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/div/div/div[2]/div[2]/div[1]/h2[2]/a").text
     last_update = driver.find_element(By.XPATH, "//*[contains(text(), 'Last update scan')]/following-sibling::td").text
 
-    if driver.find_elements(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[1]/div/div[2]/div/div/table/tbody/tr[2]/td[2]'):
-        amazon_high = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[1]/div/div[2]/div/div/table/tbody/tr[2]/td[2]').text
-        amazon_high_date = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[1]/div/div[2]/div/div/table/tbody/tr[2]/td[3]').text
-        amazon_low = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[1]/div/div[2]/div/div/table/tbody/tr[3]/td[2]').text
-        amazon_low_date = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[1]/div/div[2]/div/div/table/tbody/tr[3]/td[3]').text
-        amazon_avg = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[1]/div/div[2]/div/div/table/tbody/tr[4]/td[2]').text
+    if driver.find_elements(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[2]/td[2]'):
+        amazon_high = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[2]/td[2]').text
+        amazon_high_date = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[2]/td[3]').text
+        amazon_low = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[3]/td[2]').text
+        amazon_low_date = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[3]/td[3]').text
+        amazon_avg = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[1]/div/div[2]/div/div/table/tbody/tr[4]/td[2]').text
     else:
         amazon_high = None
         amazon_high_date = None
@@ -69,12 +69,12 @@ def fetch_product(url):
         amazon_low_date = None
         amazon_avg = None
 
-    if driver.find_elements(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td[2]"):
-        highest_price = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td[2]").text
-        highest_price_date = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td[3]").text
-        lowest_price = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[2]/div/div[2]/div/div/table/tbody/tr[3]/td[2]").text
-        lowest_price_date = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[2]/div/div[2]/div/div/table/tbody/tr[3]/td[3]").text
-        avg_price = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[2]/div/div/div[5]/div/div[5]/div[2]/div/div[2]/div/div/table/tbody/tr[4]/td[2]').text
+    if driver.find_elements(By.XPATH, "/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td[2]"):
+        highest_price = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td[2]").text
+        highest_price_date = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[2]/div/div[2]/div/div/table/tbody/tr[2]/td[3]").text
+        lowest_price = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[2]/div/div[2]/div/div/table/tbody/tr[3]/td[2]").text
+        lowest_price_date = driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[2]/div/div[2]/div/div/table/tbody/tr[3]/td[3]").text
+        avg_price = driver.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[4]/div/div/div[5]/div/div[4]/div[2]/div/div[2]/div/div/table/tbody/tr[4]/td[2]').text
     else:
         highest_price = None
         highest_price_date = None

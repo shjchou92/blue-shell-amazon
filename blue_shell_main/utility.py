@@ -65,9 +65,10 @@ def dollar(numstr):
 def price_update(url):
     headers = {
         "Accept-Language": 'en-US,en;q=0.5',
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0",
+        "User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',
     }
-    response = requests.get(url, headers=headers)
+    cookies = {'session': '131-1062572-6801905'}
+    response = requests.get(url, headers=headers, cookies=cookies)
     soup = BeautifulSoup(response.content, 'html.parser')
     price_now = dollar(soup.find(name='span', class_='a-offscreen').getText()[1:])
     return price_now
@@ -139,9 +140,10 @@ def generate_deal_tag(price_now, amazon_low, third_low):
 def lightning_deal_tag(url):
     headers = {
         "Accept-Language": 'en-US,en;q=0.5',
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101 Firefox/96.0",
+        "User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',
     }
-    response = requests.get(url, headers=headers)
+    cookies = {'session': '131-1062572-6801905'}
+    response = requests.get(url, headers=headers, cookies=cookies)
     soup = BeautifulSoup(response.content, 'html.parser')
 
     lightning = False
